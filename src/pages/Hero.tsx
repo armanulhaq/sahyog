@@ -18,7 +18,7 @@ const Hero = () => {
                     </h1>
 
                     <p className="text-md md:text-lg lg:text-xl text-gray-600 leading-relaxed font-crimson">
-                        GramFund connects generous hearts with remote regions
+                        Sahyog connects generous hearts with remote regions
                         across India. Fund essential amenities like clean water,
                         solar lighting, schools, and sanitation through
                         transparent, secure donations that create lasting

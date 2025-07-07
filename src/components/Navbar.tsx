@@ -6,10 +6,10 @@ const Navbar = () => {
             <div className="flex h-20 items-center justify-between w-full">
                 <div className="flex items-center space-x-2">
                     <div className="w-8 h-8 rounded-full flex items-center justify-center">
-                        <img src="../public/gramfund.png" alt="GramFund Logo" />
+                        <img src="/sahyog.png" alt="GramFund Logo" />
                     </div>
-                    <span className="font-bold text-2xl font-poppins text-gray-600">
-                        Gram<span className="text-green-600">Fund</span>
+                    <span className="font-bold text-2xl font-poppins text-gray-800">
+                        Sahyog
                     </span>
                 </div>
 

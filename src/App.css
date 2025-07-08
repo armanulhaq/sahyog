@@ -114,7 +114,6 @@
 @layer base {
     * {
         @apply border-border outline-ring/50;
-        background-color: #f0fdf4;
     }
     body {
         @apply bg-background text-foreground;

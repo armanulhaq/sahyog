@@ -2,6 +2,7 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { MapPin, Target, Users, Heart } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 type Region = {
     id: number;
@@ -21,6 +22,8 @@ type SupportRegionCardProps = {
 };
 
 const SupportRegionCard = ({ region }: SupportRegionCardProps) => {
+    const navigate = useNavigate();
+
     const progressPercentage: number = Math.round(
         (region.raised_amount / region.goal_amount) * 100
     );
@@ -37,7 +40,10 @@ const SupportRegionCard = ({ region }: SupportRegionCardProps) => {
     };
 
     return (
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer">
+        <div
+            className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer"
+            onClick={() => navigate("/login")}
+        >
             <div className="relative h-48 overflow-hidden">
                 <img
                     src={region.image_url}
@@ -130,7 +136,7 @@ const SupportRegionCard = ({ region }: SupportRegionCardProps) => {
                     </div>
                 </div>
                 <Button
-                    className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2.5 rounded-sm transition-colors duration-200"
+                    className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2.5 rounded-sm transition-colors duration-200 cursor-pointer"
                     disabled={!region.active}
                 >
                     <Heart className="w-4 h-4 mr-2" />

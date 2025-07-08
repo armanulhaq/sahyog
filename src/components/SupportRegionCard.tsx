@@ -41,14 +41,14 @@ const SupportRegionCard = ({ region }: SupportRegionCardProps) => {
 
     return (
         <div
-            className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer"
+            className="rounded-2xl bg-gray-50 p-6 border-1 border-gray-200 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer"
             onClick={() => navigate("/login")}
         >
-            <div className="relative h-48 overflow-hidden">
+            <div className="relative h-48 overflow-hidden rounded-xl">
                 <img
                     src={region.image_url}
                     alt={`${region.name} - ${region.funding_purpose}`}
-                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                    className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
 
@@ -82,7 +82,7 @@ const SupportRegionCard = ({ region }: SupportRegionCardProps) => {
                 </div>
             </div>
 
-            <div className="p-6">
+            <div className="py-6">
                 <div className="flex items-center mb-3">
                     <Target className="w-5 h-5 text-green-600 mr-2" />
                     <span className="font-semibold text-gray-800">

@@ -19,7 +19,6 @@ const Navbar = () => {
                 </div>
 
                 <div className="flex items-center space-x-8">
-                    <div>About</div>
                     <div className="flex gap-5">
                         <Button
                             className="bg-green-600 hover:bg-white hover:text-black hover:border-1 hover:border-green-500 cursor-pointer"

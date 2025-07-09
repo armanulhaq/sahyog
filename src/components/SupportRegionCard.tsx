@@ -38,11 +38,10 @@ const SupportRegionCard = ({ region }: SupportRegionCardProps) => {
         }
         return `₹${amount}`;
     };
-
     return (
         <div
             className="rounded-2xl bg-gray-50 p-6 border-1 border-gray-200 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer"
-            onClick={() => navigate("/login")}
+            onClick={() => navigate(`/project/${region.id}`)}
         >
             <div className="relative h-48 overflow-hidden rounded-xl">
                 <img
@@ -81,7 +80,6 @@ const SupportRegionCard = ({ region }: SupportRegionCardProps) => {
                     </div>
                 </div>
             </div>
-
             <div className="py-6">
                 <div className="flex items-center mb-3">
                     <Target className="w-5 h-5 text-green-600 mr-2" />

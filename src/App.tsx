@@ -6,6 +6,7 @@ import SupportRegionPage from "./pages/SupportRegionPage";
 import ImpactPage from "./pages/ImpactPage";
 import Login from "./pages/Login";
 import Signup from "./pages/SignUp";
+import Details from "./pages/Details";
 
 const App = () => {
     return (
@@ -21,6 +22,7 @@ const App = () => {
                     <Route path="/impact" element={<ImpactPage />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
+                    <Route path="/project/:id" element={<Details />} />
                 </Routes>
             </div>
         </>

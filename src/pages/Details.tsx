@@ -9,7 +9,6 @@ import {
     Users,
     Target,
     Heart,
-    Share2,
     IndianRupee,
     HandHelping,
 } from "lucide-react";

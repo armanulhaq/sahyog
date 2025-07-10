@@ -28,8 +28,10 @@ const Login = () => {
             password,
         });
 
-        if (error) alert("Login failed: " + error.message);
-        else {
+        if (error) {
+            setIsLoading(false);
+            alert("Login failed: " + error.message);
+        } else {
             setIsLoading(false);
             navigate("/needs-your-support");
         }

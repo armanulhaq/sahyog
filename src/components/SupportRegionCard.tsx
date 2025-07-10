@@ -1,8 +1,11 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/lib/client";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { MapPin, Target, Users, Heart } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import type { User } from "@supabase/supabase-js";
 
 type Region = {
     id: number;
@@ -23,6 +26,27 @@ type SupportRegionCardProps = {
 
 const SupportRegionCard = ({ region }: SupportRegionCardProps) => {
     const navigate = useNavigate();
+    const [user, setUser] = useState<User | null>(null);
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            const {
+                data: { user },
+            } = await supabase.auth.getUser();
+            setUser(user);
+        };
+
+        fetchUser();
+    }, []);
+
+    const handleCardClick = () => {
+        if (!user) {
+            localStorage.setItem("redirectAfterLogin", `/project/${region.id}`);
+            navigate("/login");
+        } else {
+            navigate(`/project/${region.id}`);
+        }
+    };
 
     const progressPercentage: number = Math.round(
         (region.raised_amount / region.goal_amount) * 100
@@ -38,10 +62,11 @@ const SupportRegionCard = ({ region }: SupportRegionCardProps) => {
         }
         return `₹${amount}`;
     };
+
     return (
         <div
             className="rounded-2xl bg-gray-50 p-6 border-1 border-gray-200 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer"
-            onClick={() => navigate(`/project/${region.id}`)}
+            onClick={handleCardClick}
         >
             <div className="relative h-48 overflow-hidden rounded-xl">
                 <img
@@ -80,6 +105,7 @@ const SupportRegionCard = ({ region }: SupportRegionCardProps) => {
                     </div>
                 </div>
             </div>
+
             <div className="py-6">
                 <div className="flex items-center mb-3">
                     <Target className="w-5 h-5 text-green-600 mr-2" />
@@ -118,6 +144,7 @@ const SupportRegionCard = ({ region }: SupportRegionCardProps) => {
                         </div>
                     </div>
                 </div>
+
                 {remainingAmount > 0 && (
                     <div className="bg-green-50 border border-green-200 rounded-sm p-3 mb-4">
                         <div className="flex items-center justify-center text-center">
@@ -135,6 +162,7 @@ const SupportRegionCard = ({ region }: SupportRegionCardProps) => {
                 <Button
                     className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2.5 rounded-sm transition-colors duration-200 cursor-pointer"
                     disabled={!region.active}
+                    onClick={handleCardClick}
                 >
                     <Heart className="w-4 h-4 mr-2" />
                     {region.active ? "Support This Cause" : "Campaign Ended"}

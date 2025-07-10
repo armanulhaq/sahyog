@@ -16,8 +16,6 @@ import {
 } from "lucide-react";
 import Loader from "@/components/Loader";
 import { loadStripe } from "@stripe/stripe-js";
-import { useNavigate } from "react-router-dom";
-import type { User } from "@supabase/supabase-js";
 
 const Details = () => {
     type FullRegionData = {
@@ -49,12 +47,6 @@ const Details = () => {
     const [amount, setAmount] = useState<number>(0);
 
     const handleDonate = async () => {
-        if (!user) {
-            alert("Please log in to donate.");
-            navigate("/login");
-            return;
-        }
-
         if (!amount || amount < 100) return;
 
         const res = await fetch("/api/create-checkout-session", {
@@ -69,21 +61,9 @@ const Details = () => {
         const stripe = await loadStripe(
             import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
         );
+
         stripe?.redirectToCheckout({ sessionId: data.id });
     };
-
-    const navigate = useNavigate();
-    const [user, setUser] = useState<User | null>(null);
-
-    useEffect(() => {
-        const getUser = async () => {
-            const {
-                data: { user },
-            } = await supabase.auth.getUser();
-            setUser(user);
-        };
-        getUser();
-    }, []);
 
     useEffect(() => {
         const fetchProjectData = async () => {
@@ -413,10 +393,7 @@ const Details = () => {
                                                     fill="currentColor"
                                                 />
                                                 <span>
-                                                    {!user
-                                                        ? "Login to Donate"
-                                                        : amount &&
-                                                          amount >= 100
+                                                    {amount && amount >= 100
                                                         ? `Donate ${formatCurrency(
                                                               amount
                                                           )}`

@@ -14,8 +14,8 @@ import { Mail, Lock, LogIn } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("armanulhaq10@gmail.com");
+    const [password, setPassword] = useState("sahyog");
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -59,7 +59,10 @@ const Login = () => {
                                 htmlFor="email"
                                 className="text-sm font-medium text-gray-700"
                             >
-                                Email Address
+                                Email Address{" "}
+                                <span className="text-red-300">
+                                    [Autofilled for ease]
+                                </span>
                             </Label>
                             <div className="relative">
                                 <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />

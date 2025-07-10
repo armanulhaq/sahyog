@@ -46,27 +46,23 @@ const Details = () => {
     const fixedAmounts = [1000, 10000, 100000];
     const [amount, setAmount] = useState<number>(0);
 
-    const stripePromise = loadStripe(
-        import.meta.env.VITE_PUBLIC_STRIPE_PUBLISHABLE_KEY
-    );
-
     const handleDonate = async () => {
-        if (!amount || amount < 100 || !id) return; // Guard clause for id
-        try {
-            const response = await fetch("/api/create-checkout-session", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ amount, projectId: parseInt(id) }),
-            });
-            const data = await response.json();
-            if (data.sessionId) {
-                const stripe = await stripePromise;
-                await stripe?.redirectToCheckout({ sessionId: data.sessionId });
-            }
-        } catch (error) {
-            console.error("Error creating checkout session:", error);
-            alert("Error creating checkout session");
-        }
+        if (!amount || amount < 100) return;
+
+        const res = await fetch("/api/create-checkout-session", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ amount }),
+        });
+
+        const data = await res.json();
+        const stripe = await loadStripe(
+            import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
+        );
+
+        stripe?.redirectToCheckout({ sessionId: data.id });
     };
 
     useEffect(() => {

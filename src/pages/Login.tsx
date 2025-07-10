@@ -14,8 +14,8 @@ import { Mail, Lock, LogIn } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-    const [email, setEmail] = useState("armanulhaq10@gmail.com");
-    const [password, setPassword] = useState("sahyog");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 

@@ -19,7 +19,7 @@ const SupportRegionPage = () => {
     };
 
     const [regions, setRegions] = useState<Region[]>([]);
-    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     useEffect(() => {
         const fetchRegions = async () => {

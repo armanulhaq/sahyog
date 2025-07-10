@@ -2,6 +2,7 @@ import { supabase } from "@/lib/client";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
     MapPin,
     Phone,
@@ -11,8 +12,10 @@ import {
     Heart,
     IndianRupee,
     HandHelping,
+    TrendingUp,
 } from "lucide-react";
 import Loader from "@/components/Loader";
+import { loadStripe } from "@stripe/stripe-js";
 
 const Details = () => {
     type FullRegionData = {
@@ -40,6 +43,30 @@ const Details = () => {
     const { id } = useParams<{ id: string }>();
     const [project, setProject] = useState<FullRegionData | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const fixedAmounts = [1000, 10000, 100000];
+    const [amount, setAmount] = useState<number>(0);
+
+    const stripePromise = loadStripe(
+        import.meta.env.VITE_PUBLIC_STRIPE_PUBLISHABLE_KEY
+    );
+
+    const handleDonate = async () => {
+        if (!amount || amount < 100 || !id) return; // Guard clause for id
+        try {
+            const response = await fetch("/api/create-checkout-session", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ amount, projectId: parseInt(id) }),
+            });
+            const data = await response.json();
+            if (data.sessionId) {
+                const stripe = await stripePromise;
+                await stripe?.redirectToCheckout({ sessionId: data.sessionId });
+            }
+        } catch (error) {
+            alert("Error creating checkout session");
+        }
+    };
 
     useEffect(() => {
         const fetchProjectData = async () => {
@@ -83,16 +110,13 @@ const Details = () => {
         (project.raised_amount / project.goal_amount) * 100
     );
     const formatCurrency = (amount: number) => {
-        if (amount >= 10000000) return `₹${(amount / 10000000).toFixed(1)}Cr`;
-        if (amount >= 100000) return `₹${(amount / 100000).toFixed(1)}L`;
-        if (amount >= 1000) return `₹${(amount / 1000).toFixed(1)}K`;
-        return `₹${amount}`;
+        return `₹${amount.toLocaleString("en-IN")}`;
     };
 
     return (
         <div className="min-h-screen">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 pb-10">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 pb-10">
                     <div className="lg:col-span-2 space-y-12">
                         <div className="relative group overflow-hidden rounded-2xl shadow-xl">
                             <img
@@ -246,52 +270,141 @@ const Details = () => {
                                 </h2>
                             </div>
                         </div>
-                        <div className="p-6 rounded-2xl border border-gray-100 bg-green-50">
-                            <div className="grid grid-cols-1 gap-4">
-                                <div className="flex flex-col items-start space-x-3 p-4 rounded-xl">
-                                    <div className="w-full">
-                                        <div className="flex justify-between text-sm text-gray-600">
-                                            <span>Raised</span>
-                                            <span className="font-medium">
+                        <div className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
+                            <div className="bg-gradient-to-br from-emerald-50 to-green-50 p-8">
+                                <div className="space-y-6">
+                                    <div className="grid grid-cols-2 gap-6">
+                                        <div className="space-y-1">
+                                            <div className="flex items-center gap-2 text-gray-600">
+                                                <TrendingUp className="h-4 w-4" />
+                                                <span className="text-sm font-medium">
+                                                    Raised
+                                                </span>
+                                            </div>
+                                            <p className="text-2xl font-bold text-gray-900">
                                                 {formatCurrency(
                                                     project.raised_amount
                                                 )}
-                                            </span>
+                                            </p>
                                         </div>
-                                        <div className="w-full bg-gray-200 rounded-full h-2.5 my-2">
-                                            <div
-                                                className="bg-gradient-to-r from-green-400 to-green-700 h-2.5 rounded-full transition-all duration-500 ease-out"
-                                                style={{
-                                                    width: `${progress}%`,
-                                                }}
-                                            ></div>
-                                        </div>
-                                        <div className="flex justify-between text-sm text-gray-600">
-                                            <span>Goal</span>
-                                            <span className="font-medium">
+                                        <div className="space-y-1">
+                                            <div className="flex items-center gap-2 text-gray-600">
+                                                <Target className="h-4 w-4" />
+                                                <span className="text-sm font-medium">
+                                                    Goal
+                                                </span>
+                                            </div>
+                                            <p className="text-2xl font-bold text-gray-900">
                                                 {formatCurrency(
                                                     project.goal_amount
                                                 )}
-                                            </span>
-                                        </div>
-                                        <div className="text-center py-2">
-                                            <span className="text-4xl font-bold bg-gradient-to-r from-green-600 to-green-700 bg-clip-text text-transparent">
-                                                {progress}%
-                                            </span>
-                                            <p className="text-sm text-gray-500 mt-1">
-                                                of goal reached
                                             </p>
                                         </div>
                                     </div>
+
+                                    <div className="space-y-3">
+                                        <div className="relative h-3 bg-gray-200 rounded-full overflow-hidden">
+                                            <div
+                                                className="absolute top-0 left-0 h-full bg-gradient-to-r from-emerald-500 via-green-500 to-emerald-600 rounded-full transition-all duration-700 ease-out shadow-sm"
+                                                style={{
+                                                    width: `${Math.min(
+                                                        progress,
+                                                        100
+                                                    )}%`,
+                                                }}
+                                            >
+                                                <div className="absolute inset-0 bg-white/20 animate-pulse" />
+                                            </div>
+                                        </div>
+
+                                        <div className="text-center">
+                                            <span className="inline-flex items-baseline gap-1">
+                                                <span className="text-4xl font-bold bg-gradient-to-r from-emerald-600 to-green-600 bg-clip-text text-transparent">
+                                                    {progress}%
+                                                </span>
+                                                <span className="text-lg text-gray-500 font-medium">
+                                                    complete
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
+                            </div>
+
+                            <div className="p-8 space-y-6">
                                 <div className="space-y-4">
-                                    <Button className="w-full py-6 text-lg font-semibold bg-green-600 hover:bg-green-700 text-white rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 cursor-pointer">
-                                        <Heart
-                                            className="h-5 w-5 mr-2"
-                                            fill="currentColor"
-                                        />
-                                        Donate Now
-                                    </Button>
+                                    <h3 className="text-lg font-semibold text-gray-900">
+                                        Quick Donate
+                                    </h3>
+                                    <div className="grid grid-cols-3 gap-4">
+                                        {fixedAmounts.map((amount) => (
+                                            <button
+                                                key={amount}
+                                                className="group relative overflow-hidden rounded-2xl border border-gray-200 bg-white hover:bg-gradient-to-br hover:from-emerald-50 hover:to-green-50 transition-all duration-300 hover:border-emerald-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer"
+                                                onClick={() =>
+                                                    setAmount(amount)
+                                                }
+                                            >
+                                                <div className="p-4 flex items-center gap-2">
+                                                    <div className="p-2 rounded-full bg-gray-100 group-hover:bg-emerald-100 transition-colors duration-300">
+                                                        <Heart className="h-4 w-4 text-gray-500 group-hover:text-emerald-600 transition-colors duration-300" />
+                                                    </div>
+                                                    <span className="text-sm font-semibold text-gray-700 group-hover:text-emerald-700 transition-colors duration-300">
+                                                        {formatCurrency(amount)}
+                                                    </span>
+                                                </div>
+                                                <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/0 via-emerald-500/5 to-green-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div className="space-y-4">
+                                    <h3 className="text-lg font-semibold text-gray-900">
+                                        Custom Amount
+                                    </h3>
+                                    <div className="space-y-3">
+                                        <div className="relative">
+                                            <div className="absolute left-4 top-1/2 transform -translate-y-1/2 flex items-center">
+                                                <span className="text-gray-500 font-semibold text-lg">
+                                                    ₹
+                                                </span>
+                                            </div>
+                                            <Input
+                                                type="number"
+                                                value={amount}
+                                                onChange={(e) =>
+                                                    setAmount(
+                                                        parseInt(
+                                                            e.target.value
+                                                        ) || 0
+                                                    )
+                                                }
+                                                placeholder="Enter amount"
+                                                className="pl-12 pr-4 py-6 text-lg rounded-2xl border-2 border-gray-200 focus:border-emerald-500 focus:ring-emerald-500/20 transition-all"
+                                                min="100"
+                                            />
+                                        </div>
+                                        <Button
+                                            className="w-full py-6 text-lg font-semibold bg-green-600 hover:bg-green-700 text-white rounded-2xl transform hover:scale-[1.02] transition-all duration-300 group cursor-pointer"
+                                            disabled={!amount || amount < 100}
+                                            onClick={handleDonate}
+                                        >
+                                            <div className="flex items-center justify-center gap-3">
+                                                <Heart
+                                                    className="h-5 w-5 group-hover:scale-110 transition-transform"
+                                                    fill="currentColor"
+                                                />
+                                                <span>
+                                                    {amount && amount >= 100
+                                                        ? `Donate ${formatCurrency(
+                                                              amount
+                                                          )}`
+                                                        : "Enter amount to donate"}
+                                                </span>
+                                            </div>
+                                        </Button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

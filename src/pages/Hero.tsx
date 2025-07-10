@@ -17,7 +17,7 @@ const Hero = () => {
                         <span className="text-green-600">Transform Lives.</span>
                     </h1>
 
-                    <p className="text-md md:text-lg lg:text-xl text-gray-600 leading-relaxed font-crimson">
+                    <p className="text-md md:text-lg lg:text-xl text-gray-600 leading-relaxed">
                         Sahyog connects generous hearts with remote regions
                         across India. Fund essential amenities like clean water,
                         solar lighting, schools, and sanitation through
@@ -29,7 +29,7 @@ const Hero = () => {
                         <Button
                             onClick={() => navigate("/needs-your-support")}
                             size="lg"
-                            className="bg-green-600 text-white text-lg px-8 py-6 rounded-xl hover:bg-green-700 duration-300 cursor-pointer "
+                            className="bg-green-600 text-white text-lg px-8 py-6 rounded-xl hover:bg-green-700 duration-300 cursor-pointer"
                         >
                             Fund a Cause
                         </Button>
@@ -47,7 +47,7 @@ const Hero = () => {
                     <div className="flex items-center space-x-8 pt-4">
                         <div className="text-center">
                             <div className="text-2xl font-bold text-green-600">
-                                500+
+                                50+
                             </div>
                             <div className="text-sm text-gray-600">
                                 Villages Funded

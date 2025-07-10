@@ -55,7 +55,7 @@ const SupportRegionCard = ({ region }: SupportRegionCardProps) => {
                     {region.active ? (
                         <Badge
                             variant="default"
-                            className="text-black bg-green-300"
+                            className="text-black bg-green-400/80"
                         >
                             Active
                         </Badge>
@@ -101,10 +101,7 @@ const SupportRegionCard = ({ region }: SupportRegionCardProps) => {
                             {progressPercentage}%
                         </span>
                     </div>
-                    <Progress
-                        value={progressPercentage}
-                        className="h-2 mb-3 bg-green-200"
-                    />
+                    <Progress value={progressPercentage} className="h-2 mb-3" />
 
                     <div className="flex justify-between text-sm">
                         <div>
@@ -121,18 +118,20 @@ const SupportRegionCard = ({ region }: SupportRegionCardProps) => {
                         </div>
                     </div>
                 </div>
-
-                <div className="bg-green-50 rounded-sm p-3 mb-4">
-                    <div className="flex items-center justify-center text-center">
-                        <Users className="w-4 h-4 text-gray-600 mr-2" />
-                        <span className="text-sm text-gray-600">
-                            <span className="font-semibold text-gray-800">
-                                {formatCurrency(remainingAmount)}
-                            </span>{" "}
-                            more needed
-                        </span>
+                {remainingAmount > 0 && (
+                    <div className="bg-green-50 border border-green-200 rounded-sm p-3 mb-4">
+                        <div className="flex items-center justify-center text-center">
+                            <Users className="w-4 h-4 text-gray-600 mr-2" />
+                            <span className="text-sm text-gray-600">
+                                <span className="font-semibold text-gray-800">
+                                    {formatCurrency(remainingAmount)}
+                                </span>{" "}
+                                more needed
+                            </span>
+                        </div>
                     </div>
-                </div>
+                )}
+
                 <Button
                     className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2.5 rounded-sm transition-colors duration-200 cursor-pointer"
                     disabled={!region.active}

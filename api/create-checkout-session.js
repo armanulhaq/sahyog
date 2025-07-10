@@ -25,8 +25,8 @@ export default async function handler(req, res) {
                 },
             ],
             mode: "payment",
-            success_url: "https://your-vercel-site.vercel.app/success",
-            cancel_url: "https://your-vercel-site.vercel.app/cancel",
+            success_url: "https://donate-with-sahyog.vercel.app/success",
+            cancel_url: "https://donate-with-sahyog.vercel.app/cancel",
         });
 
         res.status(200).json({ id: session.id });

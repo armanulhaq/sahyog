@@ -64,6 +64,7 @@ const Details = () => {
                 await stripe?.redirectToCheckout({ sessionId: data.sessionId });
             }
         } catch (error) {
+            console.error("Error creating checkout session:", error);
             alert("Error creating checkout session");
         }
     };

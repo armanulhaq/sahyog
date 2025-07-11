@@ -14,8 +14,8 @@ import { Mail, Lock, LogIn } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-    const [email, setEmail] = useState("armanulhaq10@gmail.com");
-    const [password, setPassword] = useState("sahyog");
+    const [email, setEmail] = useState("armanulhaq10@gmail.com"); //Autofilled for ease
+    const [password, setPassword] = useState("sahyog"); //Autofilled for ease
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -33,7 +33,11 @@ const Login = () => {
             alert("Login failed: " + error.message);
         } else {
             setIsLoading(false);
-            navigate("/needs-your-support");
+            const redirectPath =
+                localStorage.getItem("redirectAfterLogin") ||
+                "/needs-your-support";
+            localStorage.removeItem("redirectAfterLogin"); // clean up
+            navigate(redirectPath);
         }
     };
 

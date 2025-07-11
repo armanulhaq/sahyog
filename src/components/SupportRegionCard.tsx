@@ -30,9 +30,8 @@ const SupportRegionCard = ({ region }: SupportRegionCardProps) => {
 
     useEffect(() => {
         const fetchUser = async () => {
-            const {
-                data: { user },
-            } = await supabase.auth.getUser();
+            const response = await supabase.auth.getUser(); //fetches the currently logged-in user's info from localstorage and checks it against the data in the user table
+            const user = response.data.user;
             setUser(user);
         };
 
@@ -41,7 +40,7 @@ const SupportRegionCard = ({ region }: SupportRegionCardProps) => {
 
     const handleCardClick = () => {
         if (!user) {
-            localStorage.setItem("redirectAfterLogin", `/project/${region.id}`);
+            localStorage.setItem("redirectAfterLogin", `/project/${region.id}`); //store the intended destination in localStorage so you can be redirected there after login.
             navigate("/login");
         } else {
             navigate(`/project/${region.id}`);
@@ -66,13 +65,15 @@ const SupportRegionCard = ({ region }: SupportRegionCardProps) => {
     return (
         <div
             className="rounded-2xl bg-gray-50 p-6 border-1 border-gray-200 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer"
-            onClick={handleCardClick}
+            onClick={region.active ? handleCardClick : undefined}
         >
             <div className="relative h-48 overflow-hidden rounded-xl">
                 <img
                     src={region.image_url}
                     alt={`${region.name} - ${region.funding_purpose}`}
-                    className="w-full h-full object-cover"
+                    className={`w-full h-full object-cover ${
+                        region.active ? "" : "grayscale"
+                    }`}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
 
@@ -160,7 +161,11 @@ const SupportRegionCard = ({ region }: SupportRegionCardProps) => {
                 )}
 
                 <Button
-                    className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2.5 rounded-sm transition-colors duration-200 cursor-pointer"
+                    className={
+                        region.active
+                            ? "w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2.5 rounded-sm transition-colors duration-200 cursor-pointer"
+                            : "w-full bg-gray-400 text-white font-medium py-2.5 rounded-sm cursor-not-allowed"
+                    }
                     disabled={!region.active}
                     onClick={handleCardClick}
                 >

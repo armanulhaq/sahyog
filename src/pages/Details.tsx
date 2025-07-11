@@ -43,8 +43,9 @@ const Details = () => {
     const { id } = useParams<{ id: string }>();
     const [project, setProject] = useState<FullRegionData | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
+
     const fixedAmounts = [1000, 10000, 100000];
-    const [amount, setAmount] = useState<number>(0);
+    const [amount, setAmount] = useState<number>();
 
     const handleDonate = async () => {
         if (!amount || amount < 100) return;
@@ -54,7 +55,7 @@ const Details = () => {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ amount }),
+            body: JSON.stringify({ amount, project }),
         });
 
         const data = await res.json();
@@ -358,7 +359,7 @@ const Details = () => {
 
                                 <div className="space-y-4">
                                     <h3 className="text-lg font-semibold text-gray-900">
-                                        Custom Amount
+                                        Custom Amount (Min. ₹100)
                                     </h3>
                                     <div className="space-y-3">
                                         <div className="relative">

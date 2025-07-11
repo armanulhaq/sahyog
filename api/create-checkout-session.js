@@ -1,13 +1,13 @@
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY); //initializes the Stripe client with the secret key
 
 export default async function handler(req, res) {
     if (req.method !== "POST") {
         return res.status(405).send({ message: "Only POST requests allowed" });
     }
 
-    const { amount } = req.body;
+    const { amount, project } = req.body;
 
     try {
         const session = await stripe.checkout.sessions.create({
@@ -17,9 +17,9 @@ export default async function handler(req, res) {
                     price_data: {
                         currency: "inr",
                         product_data: {
-                            name: "Donation to Project",
+                            name: `Donation for ${project.funding_purpose} in ${project.area}`,
                         },
-                        unit_amount: amount * 100,
+                        unit_amount: amount * 100, //amount expected in paise
                     },
                     quantity: 1,
                 },

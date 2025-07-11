@@ -24,7 +24,7 @@ const SupportRegionPage = () => {
     useEffect(() => {
         const fetchRegions = async () => {
             setIsLoading(true);
-            const { data, error } = await supabase.from("regions").select("*");
+            const { data, error } = await supabase.from("projects").select("*");
 
             if (error) {
                 console.log("Error fetching data from the supabase", error);

@@ -73,7 +73,7 @@ const Details = () => {
 
             setIsLoading(true);
             const { data, error } = await supabase
-                .from("regions")
+                .from("projects")
                 .select("*")
                 .eq("id", parseInt(id))
                 .single();

@@ -1,24 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { CheckCircle, Home, HandHeart } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
 
 const Success = () => {
     const navigate = useNavigate();
-    const [project, setProject] = useState<null | {
-        funding_purpose: string;
-        area: string;
-        state: string;
-        district: string;
-    }>(null);
-
-    useEffect(() => {
-        const stored = localStorage.getItem("lastDonatedProject");
-        if (stored) {
-            setProject(JSON.parse(stored));
-            localStorage.removeItem("lastDonatedProject");
-        }
-    }, []);
 
     return (
         <div className="min-h-[80vh] flex items-center justify-center p-6">
@@ -36,21 +21,6 @@ const Success = () => {
                 <p className="text-lg text-gray-700 mb-4">
                     Your contribution has been successfully received.
                 </p>
-
-                {project && (
-                    <div className="bg-green-50 border border-green-200 rounded-xl p-4 mt-6 mb-6 shadow-sm">
-                        <p className="text-md text-green-800 font-medium">
-                            💚 You supported the cause:{" "}
-                            <span className="font-bold text-green-900">
-                                {project.funding_purpose}
-                            </span>
-                        </p>
-                        <p className="text-sm text-green-700 mt-1">
-                            📍 Location: {project.area}, {project.district},{" "}
-                            {project.state}
-                        </p>
-                    </div>
-                )}
 
                 <p className="text-gray-600 mb-8">
                     Your kindness helps create real change in the lives of those

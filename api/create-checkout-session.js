@@ -18,6 +18,9 @@ export default async function handler(req, res) {
                         currency: "inr",
                         product_data: {
                             name: `Donation for ${project.funding_purpose} in ${project.area}`,
+                            images: project.image_url
+                                ? [project.image_url]
+                                : [],
                         },
                         unit_amount: amount * 100, //amount expected in paise
                     },

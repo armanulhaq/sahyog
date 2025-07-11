@@ -59,6 +59,7 @@ const Details = () => {
         });
 
         const data = await res.json();
+        localStorage.setItem("donatedProject", JSON.stringify(project)); //Saving the project we are donating
         const stripe = await loadStripe(
             import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
         );

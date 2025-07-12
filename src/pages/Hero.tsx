@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const Hero = () => {
     const navigate = useNavigate();
     return (
-        <section className="py-20">
+        <section className="py-20 px-10">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
                 <div className="space-y-3">
                     <div className="bg-green-100 text-green-800 text-xs md:text-md font-sm w-fit px-4 py-1 rounded-xl">
@@ -32,15 +32,6 @@ const Hero = () => {
                             className="bg-green-600 text-white text-lg px-8 py-6 rounded-xl hover:bg-green-700 duration-300 cursor-pointer"
                         >
                             Fund a Cause
-                        </Button>
-
-                        <Button
-                            onClick={() => navigate("/impact")}
-                            variant="outline"
-                            size="lg"
-                            className="border-2 border-green-600 text-gray-600 hover:bg-green-50 text-lg px-8 py-6 rounded-xl cursor-pointer"
-                        >
-                            Real Impact Stories
                         </Button>
                     </div>
 

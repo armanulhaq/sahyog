@@ -3,7 +3,6 @@ import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import Hero from "./pages/Hero";
 import SupportRegionPage from "./pages/SupportRegionPage";
-import ImpactPage from "./pages/ImpactPage";
 import Login from "./pages/Login";
 import Signup from "./pages/SignUp";
 import Details from "./pages/Details";
@@ -21,7 +20,6 @@ const App = () => {
                         path="/needs-your-support"
                         element={<SupportRegionPage />}
                     />
-                    <Route path="/impact" element={<ImpactPage />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/project/:id" element={<Details />} />

@@ -335,7 +335,7 @@ const Details = () => {
                                     <h3 className="text-lg font-semibold text-gray-900">
                                         Quick Donate
                                     </h3>
-                                    <div className="grid grid-cols-3 gap-4">
+                                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                                         {fixedAmounts.map((amount) => (
                                             <button
                                                 key={amount}
@@ -345,8 +345,8 @@ const Details = () => {
                                                 }
                                             >
                                                 <div className="p-4 flex items-center gap-2">
-                                                    <div className="p-2 rounded-full bg-gray-100 group-hover:bg-emerald-100 transition-colors duration-300">
-                                                        <Heart className="h-4 w-4 text-gray-500 group-hover:text-emerald-600 transition-colors duration-300" />
+                                                    <div className="p-2 rounded-full bg-green-50 group-hover:bg-emerald-100 transition-colors duration-300">
+                                                        <Heart className="h-4 w-4 text-green-300 group-hover:text-emerald-600 transition-colors duration-300" />
                                                     </div>
                                                     <span className="text-sm font-semibold text-gray-700 group-hover:text-emerald-700 transition-colors duration-300">
                                                         {formatCurrency(amount)}

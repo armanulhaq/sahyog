@@ -19,12 +19,13 @@ const Navbar = () => {
         fetchUser();
 
         const { data: listener } = supabase.auth.onAuthStateChange(
+            // Listens for login/logout events
             (_event, session) => {
                 setUser(session?.user || null);
             }
         );
 
-        return () => listener.subscription.unsubscribe();
+        return () => listener.subscription.unsubscribe(); //This removes the listener when the component is destroyed
     }, []);
 
     const handleLogout = async () => {

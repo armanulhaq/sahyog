@@ -1,9 +1,19 @@
 import { Button } from "@/components/ui/button";
 import { CheckCircle, Home, HandHeart } from "lucide-react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Success = () => {
     const navigate = useNavigate();
+    useEffect(() => {
+        const project = JSON.parse(
+            localStorage.getItem("donatedProject") || "null"
+        );
+        const userId = localStorage.getItem("user_id");
+        const amount = localStorage.getItem("amount");
+
+        console.log({ project, userId, amount });
+    }, []);
 
     return (
         <div className="min-h-[80vh] flex items-center justify-center p-6">

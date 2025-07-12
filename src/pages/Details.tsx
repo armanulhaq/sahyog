@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import Loader from "@/components/Loader";
 import { loadStripe } from "@stripe/stripe-js";
+import type { User } from "@supabase/supabase-js";
 
 const Details = () => {
     type FullRegionData = {
@@ -43,12 +44,25 @@ const Details = () => {
     const { id } = useParams<{ id: string }>();
     const [project, setProject] = useState<FullRegionData | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [user, setUser] = useState<User | null>(null);
 
     const fixedAmounts = [1000, 10000, 100000];
-    const [amount, setAmount] = useState<number>();
+    const [amount, setAmount] = useState<string>("");
+
+    const fetchUser = async () => {
+        const {
+            data: { user },
+        } = await supabase.auth.getUser();
+        setUser(user);
+    };
+
+    useEffect(() => {
+        fetchUser();
+    }, []);
 
     const handleDonate = async () => {
-        if (!amount || amount < 100) return;
+        const numericAmount = parseInt(amount);
+        if (!numericAmount || numericAmount < 100) return;
 
         const res = await fetch("/api/create-checkout-session", {
             method: "POST",
@@ -60,6 +74,10 @@ const Details = () => {
 
         const data = await res.json();
         localStorage.setItem("donatedProject", JSON.stringify(project)); //Saving the project we are donating
+        localStorage.setItem("user_id", JSON.stringify(user?.id));
+        localStorage.setItem("amount", JSON.stringify(amount));
+        console.log(localStorage);
+
         const stripe = await loadStripe(
             import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
         );
@@ -341,7 +359,7 @@ const Details = () => {
                                                 key={amount}
                                                 className="group relative overflow-hidden rounded-2xl border border-gray-200 bg-white hover:bg-gradient-to-br hover:from-emerald-50 hover:to-green-50 transition-all duration-300 hover:border-emerald-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer"
                                                 onClick={() =>
-                                                    setAmount(amount)
+                                                    setAmount(amount.toString())
                                                 }
                                             >
                                                 <div className="p-4 flex items-center gap-2">
@@ -376,7 +394,7 @@ const Details = () => {
                                                     setAmount(
                                                         parseInt(
                                                             e.target.value
-                                                        ) || 0
+                                                        ).toString() || ""
                                                     )
                                                 }
                                                 placeholder="Enter amount"
@@ -386,7 +404,10 @@ const Details = () => {
                                         </div>
                                         <Button
                                             className="w-full py-6 text-lg font-semibold bg-green-600 hover:bg-green-700 text-white rounded-2xl transform hover:scale-[1.02] transition-all duration-300 group cursor-pointer"
-                                            disabled={!amount || amount < 100}
+                                            disabled={
+                                                !amount ||
+                                                parseInt(amount) < 100
+                                            }
                                             onClick={handleDonate}
                                         >
                                             <div className="flex items-center justify-center gap-3">
@@ -395,9 +416,10 @@ const Details = () => {
                                                     fill="currentColor"
                                                 />
                                                 <span>
-                                                    {amount && amount >= 100
+                                                    {amount &&
+                                                    parseInt(amount) >= 100
                                                         ? `Donate ${formatCurrency(
-                                                              amount
+                                                              parseInt(amount)
                                                           )}`
                                                         : "Enter amount to donate"}
                                                 </span>

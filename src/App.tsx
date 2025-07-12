@@ -8,6 +8,7 @@ import Signup from "./pages/SignUp";
 import Details from "./pages/Details";
 import Success from "./pages/Success";
 import PaymentFailed from "./pages/Failed";
+import MyDonations from "./pages/MyDonations";
 
 const App = () => {
     return (
@@ -20,6 +21,7 @@ const App = () => {
                         path="/needs-your-support"
                         element={<SupportRegionPage />}
                     />
+                    <Route path="/my-donations" element={<MyDonations />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/project/:id" element={<Details />} />

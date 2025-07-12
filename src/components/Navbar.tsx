@@ -51,12 +51,20 @@ const Navbar = () => {
 
                 <div className="flex items-center space-x-8">
                     {user ? (
-                        <Button
-                            className="bg-red-600 hover:bg-red-700 text-white cursor-pointer"
-                            onClick={handleLogout}
-                        >
-                            Sign Out
-                        </Button>
+                        <div className="flex gap-6">
+                            <div
+                                className="text-gray-800 cursor-pointer underline flex items-center justify-center"
+                                onClick={() => navigate("/my-donations")}
+                            >
+                                My Donations
+                            </div>
+                            <Button
+                                className="bg-red-600 hover:bg-red-700 text-white cursor-pointer"
+                                onClick={handleLogout}
+                            >
+                                Sign Out
+                            </Button>
+                        </div>
                     ) : (
                         <div className="flex gap-5">
                             <Button

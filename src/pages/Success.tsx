@@ -1,18 +1,47 @@
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/lib/client";
 import { CheckCircle, Home, HandHeart } from "lucide-react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Success = () => {
     const navigate = useNavigate();
-    useEffect(() => {
-        const project = JSON.parse(
-            localStorage.getItem("donatedProject") || "null"
-        );
-        const userId = localStorage.getItem("user_id");
-        const amount = localStorage.getItem("amount");
 
-        console.log({ project, userId, amount });
+    useEffect(() => {
+        const saveDonation = async () => {
+            const project = JSON.parse(
+                localStorage.getItem("donatedProject") || "null"
+            );
+            const userId = localStorage.getItem("user_id")?.replace(/"/g, "");
+            const amount = parseInt(
+                localStorage.getItem("amount")?.replace(/"/g, "") || "0"
+            );
+
+            if (!project || !userId || !amount || amount < 100) {
+                console.error("Missing donation data.");
+                return;
+            }
+
+            const { error } = await supabase.from("donations").insert([
+                {
+                    project_id: project.id,
+                    user_id: userId,
+                    amount: amount,
+                },
+            ]);
+
+            if (error) {
+                console.error("Error saving donation:", error);
+            } else {
+                console.log("Donation saved successfully ✅");
+
+                localStorage.removeItem("donatedProject");
+                localStorage.removeItem("user_id");
+                localStorage.removeItem("amount");
+            }
+        };
+
+        saveDonation();
     }, []);
 
     return (

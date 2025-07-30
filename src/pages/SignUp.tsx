@@ -27,16 +27,19 @@ const Signup = () => {
             password,
         });
 
-        if (error) alert("Signup failed: " + error.message);
-        else {
+        if (error) {
             setIsLoading(false);
-            navigate("/needs-your-support");
+            alert("Signup failed");
+        } else {
+            setIsLoading(false);
+            alert("Please confirm your email to login");
+            navigate("/login");
         }
     };
 
     return (
-        <div className="flex items-center justify-center p-4">
-            <Card className="w-full max-w-md shadow-xl border-0 bg-white/80 backdrop-blur-sm">
+        <div className="h-[70vh] flex items-center justify-center p-4">
+            <Card className="w-full max-w-md border-1 border-gray-100">
                 <CardHeader className="space-y-4 text-center">
                     <div className="mx-auto w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
                         <Heart className="w-6 h-6 text-green-600" />
@@ -93,9 +96,6 @@ const Signup = () => {
                                     className="pl-10 h-12 border-gray-200 focus:border-green-500 focus:ring-green-500"
                                 />
                             </div>
-                            <p className="text-xs text-gray-500">
-                                Password should be at least 8 characters long
-                            </p>
                         </div>
 
                         <Button
@@ -129,13 +129,6 @@ const Signup = () => {
                             >
                                 Sign in here
                             </a>
-                        </p>
-                    </div>
-
-                    <div className="mt-6 pt-6 border-t border-gray-200">
-                        <p className="text-xs text-gray-500 text-center">
-                            By creating an account, you agree to our Terms of
-                            Service and Privacy Policy
                         </p>
                     </div>
                 </CardContent>

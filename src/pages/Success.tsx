@@ -19,6 +19,7 @@ const Success = () => {
 
             if (!project || !userId || !amount || amount < 100) {
                 console.error("Missing donation data.");
+                navigate("/");
                 return;
             }
 
@@ -33,7 +34,7 @@ const Success = () => {
             if (error) {
                 console.error("Error saving donation:", error);
             } else {
-                console.log("Donation saved successfully ✅");
+                console.log("Donation saved successfully");
 
                 localStorage.removeItem("donatedProject");
                 localStorage.removeItem("user_id");
@@ -46,7 +47,7 @@ const Success = () => {
 
     return (
         <div className="min-h-[80vh] flex items-center justify-center p-6">
-            <div className="max-w-3xl w-fullrounded-3xl border-1 border-gray-200 p-10 text-center animate-fade-in">
+            <div className="max-w-3xl w-full p-10 text-center animate-fade-in">
                 <div className="flex justify-center mb-6">
                     <div className="w-24 h-24 rounded-full bg-green-100 flex items-center justify-center">
                         <CheckCircle className="w-14 h-14 text-green-600" />
@@ -69,7 +70,7 @@ const Success = () => {
                 <div className="flex justify-center gap-4">
                     <Button
                         onClick={() => navigate("/")}
-                        className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl text-lg font-semibold shadow-md transition-transform transform hover:scale-105"
+                        className="bg-green-600 hover:bg-green-700 text-white px-6 py-5 rounded-md text-lg font-semibold shadow-md transition-transform transform hover:scale-105 cursor-pointer"
                     >
                         <Home className="w-5 h-5 mr-2" />
                         Back to Home

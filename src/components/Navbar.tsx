@@ -68,13 +68,13 @@ const Navbar = () => {
                     ) : (
                         <div className="flex xl:gap-6 gap-3">
                             <Button
-                                className="bg-green-600 xl:text-lg text-sm hover:bg-white hover:text-black hover:border-1 hover:border-green-500 cursor-pointer rounded-sm"
+                                className="bg-green-600  text-sm hover:bg-white hover:text-black hover:border-1 hover:border-green-500 cursor-pointer rounded-sm"
                                 onClick={() => navigate("login")}
                             >
                                 Sign In
                             </Button>
                             <Button
-                                className="border-1 border-green-600 xl:text-lg text-sm hover:bg-green-50 bg-white text-black cursor-pointer rounded-sm"
+                                className="border-1 border-green-600 text-sm hover:bg-green-50 bg-white text-black cursor-pointer rounded-sm"
                                 onClick={() => navigate("signup")}
                             >
                                 Sign Up

@@ -20,7 +20,7 @@ const MyDonations = () => {
             const { data, error } = await supabase
                 .from("donations")
                 .select(
-                    "id, created_at, amount, project:project_id(funding_purpose)"
+                    "id, created_at, amount, project:project_id(funding_purpose)" //via foreign key bring in funding_purpose using project_id
                 )
                 .eq("user_id", user.id)
                 .order("created_at", { ascending: false });
@@ -42,7 +42,7 @@ const MyDonations = () => {
 
     if (donations.length === 0)
         return (
-            <div className="text-center text-green-500 mt-10 text-lg">
+            <div className="h-[80vh] flex items-center justify-center text-center text-green-500 mt-10 text-lg">
                 You haven't made any donations yet.
             </div>
         );

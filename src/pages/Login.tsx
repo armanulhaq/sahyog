@@ -42,8 +42,8 @@ const Login = () => {
     };
 
     return (
-        <div className=" flex items-center justify-center px-4">
-            <Card className="w-full max-w-md shadow-xl border-0 bg-white/80 backdrop-blur-sm">
+        <div className="h-[70vh] flex items-center justify-center px-4">
+            <Card className="w-full max-w-md border-1 border-gray-100">
                 <CardHeader className="space-y-4 text-center">
                     <div className="mx-auto w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
                         <LogIn className="w-6 h-6 text-green-600" />
@@ -65,11 +65,11 @@ const Login = () => {
                             >
                                 Email Address{" "}
                                 <span className="text-red-300">
-                                    [Autofilled for ease]
+                                    [Autofilled for recruiters' ease]
                                 </span>
                             </Label>
                             <div className="relative">
-                                <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                                <Mail className="absolute left-3 top-4 h-4 w-4 text-gray-400" />
                                 <Input
                                     id="email"
                                     type="email"
@@ -90,7 +90,7 @@ const Login = () => {
                                 Password
                             </Label>
                             <div className="relative">
-                                <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                                <Lock className="absolute left-3 top-4 h-4 w-4 text-gray-400" />
                                 <Input
                                     id="password"
                                     type="password"
@@ -100,7 +100,7 @@ const Login = () => {
                                         setPassword(e.target.value)
                                     }
                                     required
-                                    className="pl-10 h-12 border-gray-200 focus:border-green-500 focus:ring-green-500"
+                                    className="pl-10 h-12 border-gray-20"
                                 />
                             </div>
                         </div>
@@ -108,7 +108,7 @@ const Login = () => {
                         <Button
                             type="submit"
                             disabled={isLoading}
-                            className="w-full h-12 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl cursor-pointer"
+                            className="w-full h-12 bg-green-600 hover:bg-green-700 text-white font-medium rounded-md cursor-pointer"
                         >
                             {isLoading ? (
                                 <div className="flex items-center space-x-2 cursor-pointer">
@@ -127,12 +127,9 @@ const Login = () => {
                     >
                         <p className="text-sm text-gray-600">
                             Don't have an account?{" "}
-                            <a
-                                href="#"
-                                className="text-green-600 hover:text-green-700 font-medium hover:underline"
-                            >
+                            <span className="text-green-600 hover:text-green-700 font-medium hover:underline">
                                 Sign up here
-                            </a>
+                            </span>
                         </p>
                     </div>
                 </CardContent>

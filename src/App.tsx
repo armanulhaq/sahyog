@@ -14,7 +14,7 @@ const App = () => {
     return (
         <>
             <Navbar />
-            <div className="pt-20 md:px-20 lg:px-40">
+            <div className="pt-4 md:pt-8 xl:pt-10 px-4 md:px-20 xl:px-40">
                 <Routes>
                     <Route path="/" element={<Hero />} />
                     <Route

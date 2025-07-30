@@ -4,7 +4,7 @@ import { supabase } from "@/lib/client";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { MapPin, Target, Users, Heart } from "lucide-react";
+import { MapPin, Target, Users, Heart, Handshake } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
 
 type Region = {
@@ -67,7 +67,7 @@ const SupportRegionCard = ({ region }: SupportRegionCardProps) => {
             className="rounded-2xl bg-gray-50 p-6 border-1 border-gray-200 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer"
             onClick={region.active ? handleCardClick : undefined}
         >
-            <div className="relative h-48 overflow-hidden rounded-xl">
+            <div className="relative h-48 rounded-xl">
                 <img
                     src={region.image_url}
                     alt={`${region.name} - ${region.funding_purpose}`}
@@ -110,12 +110,12 @@ const SupportRegionCard = ({ region }: SupportRegionCardProps) => {
             <div className="py-6">
                 <div className="flex items-center mb-3">
                     <Target className="w-5 h-5 text-green-600 mr-2" />
-                    <span className="font-semibold text-gray-800">
+                    <span className="font-semibold text-gray-800 line-clamp-1">
                         {region.funding_purpose}
                     </span>
                 </div>
 
-                <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                <p className="text-gray-500/80 text-sm mb-4 line-clamp-2">
                     {region.short_description}
                 </p>
 
@@ -146,7 +146,7 @@ const SupportRegionCard = ({ region }: SupportRegionCardProps) => {
                     </div>
                 </div>
 
-                {remainingAmount > 0 && (
+                {remainingAmount > 0 ? (
                     <div className="bg-green-50 border border-green-200 rounded-sm p-3 mb-4">
                         <div className="flex items-center justify-center text-center">
                             <Users className="w-4 h-4 text-gray-600 mr-2" />
@@ -155,6 +155,15 @@ const SupportRegionCard = ({ region }: SupportRegionCardProps) => {
                                     {formatCurrency(remainingAmount)}
                                 </span>{" "}
                                 more needed
+                            </span>
+                        </div>
+                    </div>
+                ) : (
+                    <div className="bg-green-50 border border-green-200 rounded-sm p-3 mb-4">
+                        <div className="flex items-center justify-center text-center">
+                            <Handshake className="w-4 h-4 text-green-600 mr-2" />
+                            <span className="text-sm text-gray-600">
+                                Thank you so much for the support
                             </span>
                         </div>
                     </div>

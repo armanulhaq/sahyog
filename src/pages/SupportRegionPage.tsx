@@ -44,6 +44,7 @@ const SupportRegionPage = () => {
         (sum, region) => sum + region.raised_amount,
         0
     );
+
     const activeRegions = regions.filter((region) => region.active).length;
 
     const formatCurrency = (amount: number) => {
@@ -61,15 +62,15 @@ const SupportRegionPage = () => {
 
     return (
         <>
-            <div className="relative max-w-7xl px-4 sm:px-6 lg:px-8 pb-16 lg:pb-24">
+            <div className="px-4 sm:px-6 xl:px-8 pb-16 lg:pb-24">
                 <div className="text-center">
-                    <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+                    <h1 className="text-3xl lg:text-6xl font-bold text-gray-900 mb-4 leading-tight">
                         Support Rural
                         <span className="text-green-600 block">
                             Communities
                         </span>
                     </h1>
-                    <p className="text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto mb-8 leading-relaxed">
+                    <p className="text-md lg:text-xl text-gray-500/90 mb-8 leading-relaxed">
                         Bridge the gap and transform lives by supporting
                         essential infrastructure projects in remote regions
                         across India. Every contribution creates lasting impact.
@@ -113,8 +114,8 @@ const SupportRegionPage = () => {
                 </div>
             </div>
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 xl:px-8 pb-16">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
                     {regions.map((region) => (
                         <SupportRegionCard key={region.id} region={region} />
                     ))}
